@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Cưới Online - Mai Linh & Văn Hiển (V3)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a5a6a;
+            --accent-color: #c5a880;
+            --text-dark: #2c3e50;
+            --text-light: #6f7c85;
+            --bg-cream: #faf8f5;
+            --shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #eae5dc;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+
+        /* Thẻ thiệp chính */
+        .wedding-card {
+            background-color: var(--bg-cream);
+            max-width: 500px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            border: 8px solid #ffffff;
+            animation: fadeIn 1.2s ease-out;
+            margin-bottom: 30px;
+        }
+
+        /* Hiệu ứng viền hoa văn góc */
+        .wedding-card::before {
+            content: '';
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 1px solid rgba(197, 168, 128, 0.4);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .header-banner {
+            padding: 40px 30px 10px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Hoa văn màu nước phía trên */
+        .flower-top {
+            width: 120px;
+            margin: 0 auto 15px auto;
+            display: block;
+            opacity: 0.8;
+        }
+
+        /* Khu vực hiển thị tên khách mời động */
+        .guest-welcome-box {
+            text-align: center;
+            margin: 15px 0 25px 0;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px dashed var(--accent-color);
+        }
+
+        .guest-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .guest-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-style: italic;
+        }
+
+        /* Khu vực tên cô dâu chú rể */
+        .couple-names {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .name-glow {
+            font-family: 'Alex Brush', cursive;
+            font-size: 48px;
+            color: var(--primary-color);
+            line-height: 1.2;
+            display: block;
+            animation: gentleFloat 4s ease-in-out infinite alternate;
+        }
+
+        .ampersand {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 24px;
+            color: var(--accent-color);
+            margin: 10px 0;
+            display: block;
+        }
+
+        .divider-flower {
+            font-size: 18px;
+            color: var(--accent-color);
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .divider-flower::before, .divider-flower::after {
+            content: '';
+            height: 1px;
+            width: 50px;
+            background-color: var(--accent-color);
+            opacity: 0.5;
+        }
+
+        /* Chi tiết hôn lễ */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .details-box {
+            padding: 0 30px 30px 30px;
+            text-align: center;
+        }
+
+        .info-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .date-highlight {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 15px 0 5px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .lunar-date {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        /* Hộp sự kiện Tiệc Cưới */
+        .event-card {
+            background-color: #ffffff;
+            border: 1px solid #f0eae1;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+
+        .time-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .time-item {
+            background: var(--bg-cream);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #e8e1d5;
+        }
+
+        /* Nút bản đồ */
+        .btn-maps {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(74, 90, 106, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-maps:hover {
+            background-color: #384450;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 90, 106, 0.3);
+        }
+
+        /* Bộ đếm ngược thời gian */
+        .countdown-container {
+            margin: 30px 0 15px 0;
+        }
+
+        .countdown-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .count-box {
+            background: #ffffff;
+            border: 1px solid #ebd9c0;
+            width: 65px;
+            padding: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+        }
+
+        .count-num {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .count-label {
+            font-size: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+            display: block;
+        }
+
+        /* Album Ảnh Cưới */
+        .gallery-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px dashed rgba(197, 168, 128, 0.4);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 3 / 4;
+            background-color: #e8e1d5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06);
+        }
+
+        /* Lời cảm ơn */
+        .thankyou-section {
+            margin-top: 35px;
+            padding: 25px 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #f0eae1;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+        }
+
+        .thankyou-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .thankyou-sign {
+            font-family: 'Alex Brush', cursive;
+            font-size: 32px;
+            color: var(--accent-color);
+            margin-top: 15px;
+            display: block;
+        }
+
+        /* Thông tin cha mẹ hai bên */
+        .family-section {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px dashed rgba(197, 168, 128, 0.4);
+            margin-top: 35px;
+            padding-top: 25px;
+            text-align: left;
+        }
+
+        .family-column {
+            width: 48%;
+        }
+
+        .family-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .parent-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .parent-address {
+            font-size: 11px;
+            color: var(--text-light);
+            line-height: 1.5;
+            margin-top: 4px;
+        }
+
+        /* Trình phát nhạc nền */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #ffffff;
+            border: 1px solid var(--accent-color);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .music-icon {
+            fill: var(--primary-color);
+            width: 20px;
+            height: 20px;
+        }
+
+        .rotating {
+            animation: rotate 4s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes gentleFloat {
+            from { transform: translateY(0); }
+            to { transform: translateY(-4px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .wedding-card { border: 4px solid #ffffff; }
+            .header-banner { padding: 30px 20px 10px 20px; }
+            .details-box { padding: 0 20px 25px 20px; }
+            .name-glow { font-size: 40px; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .family-section { flex-direction: column; gap: 20px; text-align: center; }
+            .family-column { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Khung thiệp chính -->
+    <div class="wedding-card">
+        
+        <div class="header-banner">
+            <svg class="flower-top" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,10 C55,25 75,20 80,35 C85,50 65,45 50,55 C35,45 15,50 20,35 C25,20 45,25 50,10 Z" fill="none" stroke="#c5a880" stroke-width="1.2" stroke-dasharray="2,2"/>
+                <circle cx="50" cy="35" r="3" fill="#c5a880"/>
+            </svg>
+            
+            <!-- Hộp lời mời cá nhân hóa động (Mới cập nhật) -->
+            <div class="guest-welcome-box">
+                <span class="guest-label">Trân Trọng Kính Mời</span>
+                <span class="guest-name" id="guestName">Quý Khách</span>
+            </div>
+            
+            <div class="invitation-subtitle" style="margin-bottom: 15px;">Đến dự buổi tiệc chung vui cùng gia đình chúng tôi tại</div>
+        </div>
+
+        <div class="couple-names">
+            <span class="name-glow">Mai Linh</span>
+            <span class="ampersand">&</span>
+            <span class="name-glow">Văn Hiển</span>
+        </div>
+
+        <div class="divider-flower">✦</div>
+
+        <div class="details-box">
+            
+            <!-- Phần Lễ Vu Quy -->
+            <div class="section-title">Lễ Vu Quy</div>
+            <p class="info-text">Hôn lễ được cử hành tại <strong>Tư Gia</strong></p>
+            <div class="date-highlight">08 Giờ 30 | Thứ Sáu | 10.07.2026</div>
+            <div class="lunar-date">(Nhằm ngày 26 tháng 05 năm Bính Ngọ)</div>
+
+            <!-- Phần Tiệc Cưới -->
+            <div class="event-card">
+                <div class="section-title" style="margin-bottom: 8px;">Tư Gia Nhà Gái</div>
+                <p class="info-text" style="font-size: 13px; color: var(--text-light);">Thôn 6B, Xã Ea KNốp, Tỉnh Đắk Lắk</p>
+                
+                <div class="date-highlight" style="font-size: 18px; margin: 12px 0 5px 0;">Ngày 10 Tháng 07 Năm 2026</div>
+                <div class="lunar-date" style="margin-bottom: 0;">(Nhằm ngày 26 tháng 05 năm Bính Ngọ)</div>
+                
+                <div class="time-row">
+                    <div class="time-item">Đón khách: <strong>10:30</strong></div>
+                    <div class="time-item">Khai tiệc: <strong>11:00</strong></div>
+                </div>
+            </div>
+
+            <!-- Nút chỉ đường bản đồ -->
+            <a href="https://maps.app.goo.gl/AS4i1uZw9WLgqXdDA?g_st=iz" target="_blank" class="btn-maps">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                Xem Bản Đồ Chỉ Đường
+            </a>
+
+            <!-- Bộ đếm ngược thời gian -->
+            <div class="countdown-container">
+                <div class="countdown-title">Ngày Vui Sắp Đến</div>
+                <div class="countdown-timer">
+                    <div class="count-box"><span class="count-num" id="days">00</span><span class="count-label">Ngày</span></div>
+                    <div class="count-box"><span class="count-num" id="hours">00</span><span class="count-label">Giờ</span></div>
+                    <div class="count-box"><span class="count-num" id="mins">00</span><span class="count-label">Phút</span></div>
+                    <div class="count-box"><span class="count-num" id="secs">00</span><span class="count-label">Giây</span></div>
+                </div>
+            </div>
+
+            <!-- Album Ảnh Cưới -->
+            <div class="gallery-section">
+                <div class="section-title">Album Ảnh Cưới</div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=400" alt="Wedding Photo 1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=400" alt="Wedding Photo 2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=400" alt="Wedding Photo 3">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=80&w=400" alt="Wedding Photo 4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lời cảm ơn -->
+            <div class="thankyou-section">
+                <div class="thankyou-text">
+                    "Sự hiện diện và những lời chúc phúc tốt đẹp của quý vị là niềm vinh hạnh lớn lao, góp phần làm cho ngày vui của chúng tôi thêm phần trọn vẹn và ý nghĩa. Gia đình chúng tôi xin trân trọng gửi lời cảm ơn chân thành sâu sắc nhất."
+                </div>
+                <div class="thankyou-sign">Mai Linh & Văn Hiển</div>
+            </div>
+
+            <!-- Thông tin hai bên gia đình phụ mẫu -->
+            <div class="family-section">
+                <div class="family-column">
+                    <div class="family-title">Nhà Gái</div>
+                    <div class="parent-name">Ông: Hồ Minh Đác</div>
+                    <div class="parent-name">Bà: Bùi Thị Nam</div>
+                    <div class="parent-address">Thôn 6B, Xã Ea KNốp, Tỉnh Đắk Lắk</div>
+                </div>
+                <div class="family-column">
+                    <div class="family-title">Nhà Trai</div>
+                    <div class="parent-name">Ông: Trịnh Văn Sơn</div>
+                    <div class="parent-name">Bà: Đoàn Thị Dụng</div>
+                    <div class="parent-address">Tổ 13, Ấp Phước Tiên, Xã Tân Thành, Tỉnh Đồng Tháp</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Nút điều khiển âm nhạc tùy chọn -->
+    <div class="music-player rotating" id="musicBtn">
+        <svg class="music-icon" viewBox="0 0 24 24">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+    </div>
+    
+    <audio id="bgMusic" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+    <script>
+        // JS Xử lý lấy tên từ tham số URL (Ví dụ: ?name=Anh+Tú)
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('name');
+            if (nameParam) {
+                // Giải mã ký tự đặc biệt và cập nhật tên khách mời
+                document.getElementById('guestName').innerText = decodeURIComponent(nameParam.replace(/\+/g, ' '));
+            }
+        });
+
+        // Đếm ngược thời gian
+        const weddingDate = new Date("Jul 10, 2026 11:00:00").getTime();
+
+        const timerInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const timeLeft = weddingDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("mins").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("secs").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                document.querySelector(".countdown-container").innerHTML = "<div class='countdown-title' style='color: var(--accent-color); font-weight:600;'>Ngày vui đã trọn vẹn!</div>";
+            }
+        }, 1000);
+
+        // Phát nhạc
+        const musicBtn = document.getElementById("musicBtn");
+        const bgMusic = document.getElementById("bgMusic");
+        let isPlaying = false;
+
+        musicBtn.addEventListener("click", function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove("rotating");
+            } else {
+                bgMusic.play().catch(error => console.log("Yêu cầu tương tác trước khi phát nhạc."));
+                musicBtn.classList.add("rotating");
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
+</body>
+</html>
