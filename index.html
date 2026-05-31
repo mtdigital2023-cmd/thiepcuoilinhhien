@@ -27,12 +27,11 @@
             font-family: 'Montserrat', sans-serif;
             background-color: #eae5dc;
             color: var(--text-dark);
-            overflow-x: hidden; /* Ngăn cuộn ngang */
+            overflow-x: hidden; 
             margin: 0;
             padding: 0;
         }
 
-        /* Lớp bọc an toàn tránh lỗi Flexbox trên Safari/iPad */
         .main-wrapper {
             display: flex;
             justify-content: center;
@@ -42,7 +41,6 @@
             width: 100%;
         }
 
-        /* Container chứa tim rơi riêng biệt */
         #heart-container {
             position: fixed;
             top: 0;
@@ -258,7 +256,7 @@
         .count-num { display: block; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: var(--primary-color); }
         .count-label { font-size: 10px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; display: block; }
 
-        .gallery-section { margin-top: 35px; padding: 25px; border-top: 1px dashed rgba(197, 168, 128, 0.4); }
+        .gallery-section { margin-top: 35px; padding-top: 25px; border-top: 1px dashed rgba(197, 168, 128, 0.4); }
         .gallery-single { margin-top: 15px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); background-color: #e8e1d5; }
         .gallery-single img { width: 100%; display: block; object-fit: cover; }
 
@@ -386,17 +384,16 @@
         </div>
     </div>
 
-    <div class="music-player rotating" id="musicBtn">
+    <div class="music-player" id="musicBtn">
         <svg class="music-icon" viewBox="0 0 24 24">
             <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
         </svg>
     </div>
     
-    <!-- ĐÃ CẬP NHẬT: Đường dẫn sẽ lấy trực tiếp file nhac-cuoi.mp3 mà anh tự upload lên GitHub -->
-    <audio id="bgMusic" loop src="nhac-cuoi.mp3"></audio>
+    <audio id="bgMusic" loop autoplay src="nhac-cuoi.mp3"></audio>
 
     <script>
-        // Xử lý tim rơi an toàn (Màu xanh và trắng)
+        // Xử lý tim rơi màu xanh và trắng
         function createHeart() {
             const container = document.getElementById('heart-container');
             if (!container) return;
@@ -449,20 +446,49 @@
             }
         }, 1000);
 
-        // Phát nhạc
+        // --- XỬ LÝ PHÁT NHẠC TỰ ĐỘNG ---
         const musicBtn = document.getElementById("musicBtn");
         const bgMusic = document.getElementById("bgMusic");
         let isPlaying = false;
+        let hasInteracted = false;
 
-        musicBtn.addEventListener("click", function() {
+        function playMusic() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.classList.add("rotating");
+            }).catch(error => {
+                console.log("Trình duyệt chặn autoplay.");
+            });
+        }
+
+        window.addEventListener('load', () => {
+            playMusic();
+        });
+
+        function onUserInteraction() {
+            if (!hasInteracted) {
+                playMusic();
+                hasInteracted = true;
+                document.removeEventListener('click', onUserInteraction);
+                document.removeEventListener('touchstart', onUserInteraction);
+                document.removeEventListener('scroll', onUserInteraction);
+            }
+        }
+
+        document.addEventListener('click', onUserInteraction);
+        document.addEventListener('touchstart', onUserInteraction);
+        document.addEventListener('scroll', onUserInteraction); 
+
+        musicBtn.addEventListener("click", function(e) {
+            e.stopPropagation(); 
             if (isPlaying) {
                 bgMusic.pause();
                 musicBtn.classList.remove("rotating");
             } else {
-                bgMusic.play().catch(error => console.log("Trình duyệt yêu cầu tương tác trước khi phát nhạc."));
-                musicBtn.classList.add("rotating");
+                playMusic();
             }
             isPlaying = !isPlaying;
+            hasInteracted = true; 
         });
     </script>
 </body>
